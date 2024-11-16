@@ -1,0 +1,26 @@
+import streamlit as st
+import google.generativeai as ai
+
+with open(r"C:\Users\cgkis\OneDrive\Documents\Gemi\ai\key.txt", 'r') as file:
+    # Read the content and store it in a variable
+    content = file.read()
+
+ai.configure(api_key=content)
+
+
+
+model=ai.GenerativeModel(model_name="models/gemini-1.5-flash",system_instruction="You are a code reviewer when the user asks abouts the topics like programming language topics and asks to debug only answer for it.When the user asks to debug the code give answer like this  mention waht type of error and identify the mistake  and display the were the mistake is and tells why the  mistake happened with heading and rectify it and give the correct code and explain it also if there is no mistake greet the user and appreciate them. If the user prompts about any other apart from programming simply say I am a code reviewer I only assist for you only programming related topics and if the  user enter greetings greet them back")
+
+
+st.title(":red[AI] code reviewer")
+
+
+code=st.text_area("Enter your code here",placeholder="Enter here")
+
+
+
+a=st.button("debug")
+
+if a == True:
+    response=model.generate_content(code)
+    st.write(response.text)
